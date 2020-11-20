@@ -41,7 +41,8 @@ namespace AudioMuffler {
 	    }
 	    
 	    void VesselWasModified(Vessel vessel) {
-	    	if (vessel.isActiveVessel) {
+            // null check here - somehow this occasionally is null?
+            if (vessel != null && vessel.isActiveVessel) {
 				cacheManager.setSchedule(config.minCacheUpdateInterval);
 	    	}
 	    }
