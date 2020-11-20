@@ -16,16 +16,16 @@ namespace AudioMuffler {
 	    void Start()
 	    {
 	    	config = AudioMufflerConfig.loadConfig();
-	        if (!config.engageMuffler)
+	        if (!config.EngageMuffler)
 	            return;
 	        GameEvents.onVesselChange.Add(VesselChange);
 	        GameEvents.onVesselWasModified.Add(VesselWasModified);
 			AudioSource[] audioSources = FindObjectsOfType(typeof(AudioSource)) as AudioSource[];
 			audioMixer = AudioMixerFacade
-                .initializeMixer(KSP.IO.IOUtils.GetFilePathFor(typeof(Muffler), "mixer.bundle")
+                .InitializeMixer(KSP.IO.IOUtils.GetFilePathFor(typeof(Muffler), "mixer.bundle")
                 .Replace("/", System.IO.Path.DirectorySeparatorChar.ToString()));
-	        StockAudio.prepareAudioSources(audioMixer, audioSources);
-			audioMixer.setInVesselCutoff(config.wallCutoff);
+	        StockAudio.PrepareAudioSources(audioMixer, audioSources);
+			audioMixer.setInVesselCutoff(config.WallCutoff);
 	    }
 	    void VesselChange(Vessel v)
 	    {
@@ -35,12 +35,12 @@ namespace AudioMuffler {
 	    void VesselWasModified(Vessel vessel) {
             // null check here - somehow this occasionally is null?
             if (vessel != null && vessel.isActiveVessel) {
-				cacheManager.setSchedule(config.minCacheUpdateInterval);
+				cacheManager.setSchedule(config.MinCacheUpdateInterval);
 	    	}
 	    }
 	    void LateUpdate()
 	    {
-	        if (!config.engageMuffler)
+	        if (!config.EngageMuffler)
 	            return;
 			AudioSource[] audioSources = FindObjectsOfType(typeof(AudioSource)) as AudioSource[];
 			cacheManager.maintainCaches(audioSources);
@@ -56,7 +56,7 @@ namespace AudioMuffler {
 					writeDebug("Ear position = " + earPosition);
 					for (int i = 0; i < FlightGlobals.ActiveVessel.Parts.Count && earPart == null; i++) {
 						Part part = FlightGlobals.ActiveVessel.Parts[i];
-						if (cacheManager.vesselGeometry.isPointInPart(earPosition, part)) {
+						if (cacheManager.vesselGeometry.IsPointInPart(earPosition, part)) {
 							earPart = part;
 						}
 					}
@@ -67,16 +67,16 @@ namespace AudioMuffler {
 			bool unmanned = FlightGlobals.ActiveVessel.crewableParts == 0;
 			bool muteHelmet =
                 (earPart == null) &&
-                !config.helmetOutsideEVA && FlightGlobals.ActiveVessel.isEVA ||
+                !config.HelmetOutsideEVA && FlightGlobals.ActiveVessel.isEVA ||
                 !FlightGlobals.ActiveVessel.isEVA &&
-                !unmanned && !config.helmetOutsideIVA &&
+                !unmanned && !config.HelmetOutsideIVA &&
                 !(CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.IVA) ||
-                !config.helmetForUnmanned && unmanned;
+                !config.HelmetForUnmanned && unmanned;
 			// Setting up outside channel:
 			float atmosphericCutoff =
-                Mathf.Lerp(config.minimalCutoff, 30000, (float)FlightGlobals.ActiveVessel.atmDensity);
+                Mathf.Lerp(config.MinimalCutoff, 30000, (float)FlightGlobals.ActiveVessel.atmDensity);
 			if (earPart != null) {
-				audioMixer.setOutsideCutoff(Mathf.Min(config.wallCutoff, atmosphericCutoff));
+				audioMixer.setOutsideCutoff(Mathf.Min(config.WallCutoff, atmosphericCutoff));
 				audioMixer.setInVesselVolume(-2f);
 				audioMixer.setOutsideVolume(-12f);
 			} else {
@@ -86,50 +86,50 @@ namespace AudioMuffler {
 			}
 			// Handling Map view settings:
 			bool isMapView = CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.Map;
-			muteHelmet = muteHelmet	|| !config.helmetInMapView && isMapView;
+			muteHelmet = muteHelmet	|| !config.HelmetInMapView && isMapView;
 			audioMixer.muteHelmet(muteHelmet);
-			audioMixer.muteInVessel(!config.vesselInMapView && isMapView);
-			audioMixer.muteOutside(!config.outsideInMapView && isMapView);
+			audioMixer.muteInVessel(!config.VesselInMapView && isMapView);
+			audioMixer.muteOutside(!config.OutsideInMapView && isMapView);
 			// Routing all current audio sources:
 	        for (int i = 0; i < audioSources.Length; i++) {
 				AudioSource audioSource = audioSources[i];
 				/* Hereafter audio sources that are bound to a part's InternalModel are handled differently from the
                 rest because InternalModel has its own reference system, so these two systems shouldn't be mixed
                 until the way to convert coordinates between them is found */
-				if (config.debug) {
+				if (config.Debug) {
 					writeDebug(
                         "Sound " + i + " clp=" + (audioSource.clip == null ? "null" : audioSource.clip.name)
                         + ": plyng=" + audioSource.isPlaying +  " trf.nm=" + audioSource.transform.name
                         + " trf.pos=" + audioSource.transform.position + " amb="
-                        + StockAudio.isAmbient(audioSource) + " inves=" + StockAudio.isInVessel(audioSource)
+                        + StockAudio.IsAmbient(audioSource) + " inves=" + StockAudio.IsInVessel(audioSource)
                     );
 				}
                 // This "if" is here because of strange behaviour of StageManager's audio source which
                 // always has clip = null and !playing when checked
-				if (StockAudio.isInVessel(audioSource)) {
+				if (StockAudio.IsInVessel(audioSource)) {
 					writeDebug("Sound " + i + ":" + audioSource.name + " IN VESSEL");
 					audioSource.outputAudioMixerGroup =
-                        (earPart != null) ? audioMixer.inVesselGroup : audioMixer.outsideGroup;
+                        (earPart != null) ? audioMixer.InVesselGroup : audioMixer.OutsideGroup;
 					continue;
 				}
 				if (
                 //audioSource.bypassEffects ||
-                StockAudio.isPreserved(audioSource) || (audioSource.clip == null) || (!audioSource.isPlaying)) {
+                StockAudio.IsPreserved(audioSource) || (audioSource.clip == null) || (!audioSource.isPlaying)) {
 	        		continue;
 	        	}
-				if (StockAudio.isAmbient(audioSource)) {
+				if (StockAudio.IsAmbient(audioSource)) {
 					writeDebug("Sound " + i + ":" + audioSource.name + " OUTSIDE");
-					audioSource.outputAudioMixerGroup = audioMixer.outsideGroup;
+					audioSource.outputAudioMixerGroup = audioMixer.OutsideGroup;
 					continue;
 				}
 				if (isSoundInHelmet(audioSource)) {
 					writeDebug("Sound " + i + ":" + audioSource.name + " IN HELMET");
-					audioSource.outputAudioMixerGroup = audioMixer.helmetGroup;
+					audioSource.outputAudioMixerGroup = audioMixer.HelmetGroup;
 					continue;
 				}
 				bool isRouted = false;
 				if (earPart != null /*&& vesselGeometry.isPointInVesselBounds(audioSource.transform.position)*/) {
-					Part boundToPartIVA = cacheManager.vesselSounds.getPartForIVA(audioSource);
+					Part boundToPartIVA = cacheManager.vesselSounds.GetPartForIVA(audioSource);
 					if (boundToPartIVA != null) {
 						if (earPart.Equals(boundToPartIVA)) {
 							writeDebug("Sound " + i + ":" + audioSource.name + " SAME AS EAR, INTERNAL");
@@ -139,7 +139,7 @@ namespace AudioMuffler {
 						} else {
 							writeDebug("Sound " + i + ":" + audioSource.name + " ANOTHER PART, INTERNAL");
                             //if audioSource is in another part of the vessel then applying constant muffling
-                            audioSource.outputAudioMixerGroup = audioMixer.inVesselGroup;
+                            audioSource.outputAudioMixerGroup = audioMixer.InVesselGroup;
 							continue;
 						}
 					}
@@ -152,20 +152,20 @@ namespace AudioMuffler {
                     //if (CameraManager.Instance.currentCameraMode != CameraManager.CameraMode.IVA) {
                     if (
                     audioSource.transform.IsChildOf(earPart.transform) &&
-                    cacheManager.vesselGeometry.isPointInPart(audioSource.transform.position, earPart)) {
+                    cacheManager.vesselGeometry.IsPointInPart(audioSource.transform.position, earPart)) {
 						writeDebug("Sound " + i + ":" + audioSource.name + " SAME AS EAR");
                         //if audioSource is in the same part with the Ear then skipping filtering
                         audioSource.outputAudioMixerGroup = null;
 						continue;
 					}
 					//}
-					Part boundPart = cacheManager.vesselSounds.getPartFor(audioSource);
+					Part boundPart = cacheManager.vesselSounds.GetPartFor(audioSource);
 					if (
                     boundPart != null && !boundPart.Equals(earPart) &&
-                    cacheManager.vesselGeometry.isPointInPart(audioSource.transform.position, boundPart)) {
+                    cacheManager.vesselGeometry.IsPointInPart(audioSource.transform.position, boundPart)) {
 						writeDebug("Sound " + i + ":" + audioSource.name + " ANOTHER PART");
                         //if audioSource is in another part of the vessel then applying constant muffling
-                        audioSource.outputAudioMixerGroup = audioMixer.inVesselGroup;
+                        audioSource.outputAudioMixerGroup = audioMixer.InVesselGroup;
 						continue;
 					}
 					// To this point the audioSource should be already routed as in the game the vast majority of
@@ -175,7 +175,7 @@ namespace AudioMuffler {
 						Part part = FlightGlobals.ActiveVessel.Parts[p];
                         //if the audioSource is bound to some part, then this part is already checked earlier
                         if (part.Equals(boundPart)) { continue; }
-						if (cacheManager.vesselGeometry.isPointInPart(audioSource.transform.position, part)) {
+						if (cacheManager.vesselGeometry.IsPointInPart(audioSource.transform.position, part)) {
 							if (part.Equals(earPart)) {
 								writeDebug("Sound " + i + ":" + audioSource.name + " SAME AS EAR");
                                 //if audioSource is in the same part with the Ear then skipping filtering
@@ -183,7 +183,7 @@ namespace AudioMuffler {
 							} else {
 								writeDebug("Sound " + i + ":" + audioSource.name + " ANOTHER PART");
                                 //if audioSource is in another part of the vessel then applying constant muffling
-                                audioSource.outputAudioMixerGroup = audioMixer.inVesselGroup;
+                                audioSource.outputAudioMixerGroup = audioMixer.InVesselGroup;
 							}
 							isRouted = true;
 						}
@@ -193,14 +193,14 @@ namespace AudioMuffler {
 	        		continue;
 	        	}
 				writeDebug("Sound " + i + ":" + audioSource.name + " OUTSIDE");
-				audioSource.outputAudioMixerGroup = audioMixer.outsideGroup;
+				audioSource.outputAudioMixerGroup = audioMixer.OutsideGroup;
 	        }
 	    }
 		private bool isSoundInHelmet(AudioSource audioSource) {
-			return !StockAudio.isAmbient(audioSource) && audioSource.transform.position == Vector3.zero;
+			return !StockAudio.IsAmbient(audioSource) && audioSource.transform.position == Vector3.zero;
 		}
 		private void writeDebug(string message) {
-			if (config.debug && !Planetarium.Pause) {
+			if (config.Debug && !Planetarium.Pause) {
 				KSPLog.print("[Audio Muffler] " + message);
 			}
 		}

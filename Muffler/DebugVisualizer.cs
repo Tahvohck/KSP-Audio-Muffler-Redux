@@ -13,7 +13,7 @@ namespace AudioMuffler
 		{
 		}
 
-		private static void initializeMaterial() {
+		private static void InitializeMaterial() {
 			if (material == null) {
 				//material = new Material(Shader.Find("Specular"));
 				/*material = new Material( "Shader \"Lines/Colored Blended\" {" +
@@ -54,7 +54,7 @@ namespace AudioMuffler
 		}
 
 		public static void drawPartMeshes(Color color) {
-			initializeMaterial();
+			InitializeMaterial();
 			material.SetPass(0);
 			GL.PushMatrix();
 			GL.Begin(GL.LINES);
@@ -127,7 +127,7 @@ namespace AudioMuffler
 		}
 
 		public static void visualizeAudioSources(AudioSource[] audiosources, Color color) {
-			initializeMaterial();
+			InitializeMaterial();
 			material.SetPass(0);
 			GL.PushMatrix();
 			GL.Begin(GL.LINES);
@@ -144,7 +144,7 @@ namespace AudioMuffler
 		}
 
 		public static void visualizeTransform(Transform transform, Color color) {
-			initializeMaterial();
+			InitializeMaterial();
 			material.SetPass(0);
 			Color colorOffset = new Color(0.3f, 0.3f, 0.3f, 0);
 			GL.PushMatrix();

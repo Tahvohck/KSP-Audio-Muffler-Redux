@@ -30,8 +30,8 @@ namespace AudioMuffler
 			stopWatch.Stop();
 			stopWatch.Reset();
 
-			vesselGeometry.rebuildCache();
-			vesselSounds.rebuildCache(audioSources);
+			vesselGeometry.RebuildCache();
+			vesselSounds.RebuildCache(audioSources);
 
 			stopWatch.Start();
 			scheduled = false;

@@ -12,17 +12,17 @@ namespace AudioMuffler
 	/// </summary>
 	public class AudioMufflerConfig
 	{
-		public bool debug {get; set;}
-		public bool engageMuffler {get; set;}
-		public int minCacheUpdateInterval {get; set;}
-		public float wallCutoff {get; set;}
-		public float minimalCutoff {get; set;}
-		public bool helmetOutsideIVA {get; set;}
-		public bool helmetOutsideEVA {get; set;}
-		public bool helmetInMapView {get; set;}
-		public bool helmetForUnmanned { get; set;}
-		public bool vesselInMapView {get; set;}
-		public bool outsideInMapView {get; set;}
+		public bool Debug {get; set;}
+		public bool EngageMuffler {get; set;}
+		public int MinCacheUpdateInterval {get; set;}
+		public float WallCutoff {get; set;}
+		public float MinimalCutoff {get; set;}
+		public bool HelmetOutsideIVA {get; set;}
+		public bool HelmetOutsideEVA {get; set;}
+		public bool HelmetInMapView {get; set;}
+		public bool HelmetForUnmanned { get; set;}
+		public bool VesselInMapView {get; set;}
+		public bool OutsideInMapView {get; set;}
 		
 		public static AudioMufflerConfig loadConfig() {
 			AudioMufflerConfig config = new AudioMufflerConfig();
@@ -33,17 +33,17 @@ namespace AudioMuffler
                 .Replace("/", System.IO.Path.DirectorySeparatorChar.ToString());
 	        ConfigNode node = ConfigNode.Load(path);
 	        
-	        config.debug = bool.Parse(node.GetValue("debug"));
-	        config.engageMuffler = bool.Parse(node.GetValue("enabled"));
-			config.minCacheUpdateInterval = int.Parse(node.GetValue("minCacheUpdateInterval"));
-			config.wallCutoff = float.Parse(node.GetValue("wallCutoff"));
-			config.minimalCutoff = float.Parse(node.GetValue("minimalCutoff"));
-			config.helmetOutsideIVA = bool.Parse(node.GetValue("helmetOutsideIVA"));
-			config.helmetOutsideEVA = bool.Parse(node.GetValue("helmetOutsideEVA"));
-			config.helmetForUnmanned = bool.Parse(node.GetValue("helmetOutsideEVA"));
-			config.helmetInMapView = bool.Parse(node.GetValue("helmetInMapView"));
-			config.vesselInMapView = bool.Parse(node.GetValue("vesselInMapView"));
-			config.outsideInMapView = bool.Parse(node.GetValue("outsideInMapView"));
+	        config.Debug = bool.Parse(node.GetValue("debug"));
+	        config.EngageMuffler = bool.Parse(node.GetValue("enabled"));
+			config.MinCacheUpdateInterval = int.Parse(node.GetValue("minCacheUpdateInterval"));
+			config.WallCutoff = float.Parse(node.GetValue("wallCutoff"));
+			config.MinimalCutoff = float.Parse(node.GetValue("minimalCutoff"));
+			config.HelmetOutsideIVA = bool.Parse(node.GetValue("helmetOutsideIVA"));
+			config.HelmetOutsideEVA = bool.Parse(node.GetValue("helmetOutsideEVA"));
+			config.HelmetForUnmanned = bool.Parse(node.GetValue("helmetOutsideEVA"));
+			config.HelmetInMapView = bool.Parse(node.GetValue("helmetInMapView"));
+			config.VesselInMapView = bool.Parse(node.GetValue("vesselInMapView"));
+			config.OutsideInMapView = bool.Parse(node.GetValue("outsideInMapView"));
 			
 			return config;
 		}
