@@ -3,7 +3,6 @@ param(
 	$DLL_Name,
 	$Project_Name
 )
-cd ../..
 if ( !($Build_Dir) -or !(Test-Path $Build_Dir) ) {
 	Write-Error "Can't find Build_Dir, exiting."
 	exit 1
@@ -16,6 +15,8 @@ if ( !($Project_Name) ) {
 	Write-Error "No project name given. Refusing to continue."
 	exit 1
 }
+
+cd "$Build_Dir/../.."
 
 function MoveToStaging ($file, $location) {
 	if (Test-Path $file) {
