@@ -42,7 +42,8 @@ namespace AudioMuffler
 		private static Vector3 CT(Vector3 vector, bool asInternal = false) {
 			if (1 == 1)
 				return vector;
-			if (CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.IVA || CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.Internal) {
+			if (CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.IVA ||
+                CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.Internal) {
 				if (asInternal) {
 					return vector;
 				}
@@ -67,46 +68,54 @@ namespace AudioMuffler
 					Vector3 center = filter.mesh.bounds.center;
 					Vector3 extents = filter.mesh.bounds.extents;
 
-					GL.Vertex(CT(filter.transform.TransformPoint(center + new Vector3(-extents.x, -extents.y, -extents.z))));
-					GL.Vertex(CT(filter.transform.TransformPoint(center + new Vector3(+extents.x, -extents.y, -extents.z))));
-
-					GL.Vertex(CT(filter.transform.TransformPoint(center + new Vector3(-extents.x, -extents.y, -extents.z))));
-					GL.Vertex(CT(filter.transform.TransformPoint(center + new Vector3(-extents.x, +extents.y, -extents.z))));
-
-					GL.Vertex(CT(filter.transform.TransformPoint(center + new Vector3(-extents.x, -extents.y, -extents.z))));
-					GL.Vertex(CT(filter.transform.TransformPoint(center + new Vector3(-extents.x, -extents.y, +extents.z))));
-
-
-					GL.Vertex(CT(filter.transform.TransformPoint(center + new Vector3(+extents.x, +extents.y, +extents.z))));
-					GL.Vertex(CT(filter.transform.TransformPoint(center + new Vector3(-extents.x, +extents.y, +extents.z))));
-
-					GL.Vertex(CT(filter.transform.TransformPoint(center + new Vector3(+extents.x, +extents.y, +extents.z))));
-					GL.Vertex(CT(filter.transform.TransformPoint(center + new Vector3(+extents.x, -extents.y, +extents.z))));
-
-					GL.Vertex(CT(filter.transform.TransformPoint(center + new Vector3(+extents.x, +extents.y, +extents.z))));
-					GL.Vertex(CT(filter.transform.TransformPoint(center + new Vector3(+extents.x, +extents.y, -extents.z))));
-
-
-					GL.Vertex(CT(filter.transform.TransformPoint(center + new Vector3(-extents.x, +extents.y, +extents.z))));
-					GL.Vertex(CT(filter.transform.TransformPoint(center + new Vector3(-extents.x, +extents.y, -extents.z))));
-
-					GL.Vertex(CT(filter.transform.TransformPoint(center + new Vector3(-extents.x, +extents.y, +extents.z))));
-					GL.Vertex(CT(filter.transform.TransformPoint(center + new Vector3(-extents.x, -extents.y, +extents.z))));
-
-
-					GL.Vertex(CT(filter.transform.TransformPoint(center + new Vector3(+extents.x, -extents.y, -extents.z))));
-					GL.Vertex(CT(filter.transform.TransformPoint(center + new Vector3(+extents.x, +extents.y, -extents.z))));
-
-					GL.Vertex(CT(filter.transform.TransformPoint(center + new Vector3(+extents.x, -extents.y, -extents.z))));
-					GL.Vertex(CT(filter.transform.TransformPoint(center + new Vector3(+extents.x, -extents.y, +extents.z))));
-
-
-					GL.Vertex(CT(filter.transform.TransformPoint(center + new Vector3(-extents.x, +extents.y, -extents.z))));
-					GL.Vertex(CT(filter.transform.TransformPoint(center + new Vector3(+extents.x, +extents.y, -extents.z))));
-
-
-					GL.Vertex(CT(filter.transform.TransformPoint(center + new Vector3(-extents.x, -extents.y, +extents.z))));
-					GL.Vertex(CT(filter.transform.TransformPoint(center + new Vector3(+extents.x, -extents.y, +extents.z))));
+					GL.Vertex(CT(
+                        filter.transform.TransformPoint(center + new Vector3(-extents.x, -extents.y, -extents.z))));
+					GL.Vertex(CT(
+                        filter.transform.TransformPoint(center + new Vector3(+extents.x, -extents.y, -extents.z))));
+					GL.Vertex(CT(
+                        filter.transform.TransformPoint(center + new Vector3(-extents.x, -extents.y, -extents.z))));
+					GL.Vertex(CT(
+                        filter.transform.TransformPoint(center + new Vector3(-extents.x, +extents.y, -extents.z))));
+					GL.Vertex(CT(
+                        filter.transform.TransformPoint(center + new Vector3(-extents.x, -extents.y, -extents.z))));
+					GL.Vertex(CT(
+                        filter.transform.TransformPoint(center + new Vector3(-extents.x, -extents.y, +extents.z))));
+					GL.Vertex(CT(
+                        filter.transform.TransformPoint(center + new Vector3(+extents.x, +extents.y, +extents.z))));
+					GL.Vertex(CT(
+                        filter.transform.TransformPoint(center + new Vector3(-extents.x, +extents.y, +extents.z))));
+					GL.Vertex(CT(
+                        filter.transform.TransformPoint(center + new Vector3(+extents.x, +extents.y, +extents.z))));
+					GL.Vertex(CT(
+                        filter.transform.TransformPoint(center + new Vector3(+extents.x, -extents.y, +extents.z))));
+					GL.Vertex(CT(
+                        filter.transform.TransformPoint(center + new Vector3(+extents.x, +extents.y, +extents.z))));
+					GL.Vertex(CT(
+                        filter.transform.TransformPoint(center + new Vector3(+extents.x, +extents.y, -extents.z))));
+					GL.Vertex(CT(
+                        filter.transform.TransformPoint(center + new Vector3(-extents.x, +extents.y, +extents.z))));
+					GL.Vertex(CT(
+                        filter.transform.TransformPoint(center + new Vector3(-extents.x, +extents.y, -extents.z))));
+					GL.Vertex(CT(
+                        filter.transform.TransformPoint(center + new Vector3(-extents.x, +extents.y, +extents.z))));
+					GL.Vertex(CT(
+                        filter.transform.TransformPoint(center + new Vector3(-extents.x, -extents.y, +extents.z))));
+					GL.Vertex(CT(
+                        filter.transform.TransformPoint(center + new Vector3(+extents.x, -extents.y, -extents.z))));
+					GL.Vertex(CT(
+                        filter.transform.TransformPoint(center + new Vector3(+extents.x, +extents.y, -extents.z))));
+					GL.Vertex(CT(
+                        filter.transform.TransformPoint(center + new Vector3(+extents.x, -extents.y, -extents.z))));
+					GL.Vertex(CT(
+                        filter.transform.TransformPoint(center + new Vector3(+extents.x, -extents.y, +extents.z))));
+					GL.Vertex(CT(
+                        filter.transform.TransformPoint(center + new Vector3(-extents.x, +extents.y, -extents.z))));
+					GL.Vertex(CT(
+                        filter.transform.TransformPoint(center + new Vector3(+extents.x, +extents.y, -extents.z))));
+					GL.Vertex(CT(
+                        filter.transform.TransformPoint(center + new Vector3(-extents.x, -extents.y, +extents.z))));
+					GL.Vertex(CT(
+                        filter.transform.TransformPoint(center + new Vector3(+extents.x, -extents.y, +extents.z))));
 
 				}
 			}
