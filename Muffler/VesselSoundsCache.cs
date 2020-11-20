@@ -12,9 +12,11 @@ namespace AudioMuffler
 	/// </summary>
 	public class VesselSoundsCache
 	{
-		
-		private Dictionary<int, Part> soundIDToPart = new Dictionary<int, Part>(); //id is used to not mess with weak references to audio sources
-		private Dictionary<int, Part> soundIDToPartIVA = new Dictionary<int, Part>(); //using a separate storage for internal model audio sources as they have completely different reference system
+
+        // id is used to not mess with weak references to audio sources
+        private Dictionary<int, Part> soundIDToPart = new Dictionary<int, Part>();
+        //using a separate storage for internal model audio sources as they have completely different reference system
+        private Dictionary<int, Part> soundIDToPartIVA = new Dictionary<int, Part>();
 
 		public void rebuildCache(AudioSource[] audioSources) {
 			Stopwatch performanceWatch = Stopwatch.StartNew();

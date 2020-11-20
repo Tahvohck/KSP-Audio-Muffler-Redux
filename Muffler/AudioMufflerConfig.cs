@@ -27,7 +27,10 @@ namespace AudioMuffler
 		public static AudioMufflerConfig loadConfig() {
 			AudioMufflerConfig config = new AudioMufflerConfig();
 			
-			string path = KSP.IO.IOUtils.GetFilePathFor(typeof(Muffler), "muffler.cfg").Replace("/", System.IO.Path.DirectorySeparatorChar.ToString());
+			string path =
+                KSP.IO.IOUtils
+                .GetFilePathFor(typeof(Muffler), "muffler.cfg")
+                .Replace("/", System.IO.Path.DirectorySeparatorChar.ToString());
 	        ConfigNode node = ConfigNode.Load(path);
 	        
 	        config.debug = bool.Parse(node.GetValue("debug"));

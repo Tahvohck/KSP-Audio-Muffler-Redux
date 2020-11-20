@@ -40,9 +40,9 @@ namespace AudioMuffler {
 			for (int i = 0; i < audioSources.Length; i++) {
 				if (isAmbient(audioSources[i])) {
 					audioSources[i].bypassEffects = false;
-					audioSources[i].bypassListenerEffects = false;					
+					audioSources[i].bypassListenerEffects = false;
 				} else if (isPreserved(audioSources[i])) {
-					audioSources[i].bypassEffects = true;					
+					audioSources[i].bypassEffects = true;
 				}
 			}
 		}*/

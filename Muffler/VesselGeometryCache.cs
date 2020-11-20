@@ -7,12 +7,15 @@ namespace AudioMuffler
 {
 	public class VesselGeometryCache
 	{
-		private Bounds EVA_BOUNDS = new Bounds(new Vector3(0.0f, 0.3f, 0.0f), new Vector3(1.2f, 1.6f, 1.2f)); //Artificial EVA bounds (they are always the same)
+        //Artificial EVA bounds (they are always the same)
+        private Bounds EVA_BOUNDS = new Bounds(new Vector3(0.0f, 0.3f, 0.0f), new Vector3(1.2f, 1.6f, 1.2f));
 
-		//private Bounds vesselBounds = new Bounds();	//active vessel's bounds relative to vesselTransform. This should be checked prior to iterating through part meshes to improve efficiency
-		//private Transform vesselTransform = null;
+        // Active vessel's bounds relative to vesselTransform.
+        // This should be checked prior to iterating through part meshes to improve efficiency
+        //private Bounds vesselBounds = new Bounds();
+        //private Transform vesselTransform = null;
 
-		public Dictionary<Part, List<MeshFilter>> partMeshes { get; set;}
+        public Dictionary<Part, List<MeshFilter>> partMeshes { get; set;}
 
 		public VesselGeometryCache() {
 			partMeshes = new Dictionary<Part, List<MeshFilter>>();
@@ -43,7 +46,8 @@ namespace AudioMuffler
 				/*for (int j = 0; j < filters.Count; j++) {
 					MeshFilter filter = filters[j];
 					for (int v = 0; v < filter.mesh.vertices.Length; v++) {
-						Vector3 vertice = vesselTransform.InverseTransformPoint(filter.transform.TransformPoint(filter.mesh.vertices[v]));
+						Vector3 vertice = vesselTransform.InverseTransformPoint(
+                            filter.transform.TransformPoint(filter.mesh.vertices[v]));
 						min.x = Mathf.Min(min.x, vertice.x);
 						min.y = Mathf.Min(min.y, vertice.y);
 						min.z = Mathf.Min(min.z, vertice.z);
