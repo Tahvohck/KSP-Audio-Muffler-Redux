@@ -12,11 +12,13 @@ namespace AudioMuffler
 	/// </summary>
 	public class VesselSoundsCache
 	{
-		
-		private Dictionary<int, Part> soundIDToPart = new Dictionary<int, Part>(); //id is used to not mess with weak references to audio sources
-		private Dictionary<int, Part> soundIDToPartIVA = new Dictionary<int, Part>(); //using a separate storage for internal model audio sources as they have completely different reference system
 
-		public void rebuildCache(AudioSource[] audioSources) {
+        // id is used to not mess with weak references to audio sources
+        private Dictionary<int, Part> soundIDToPart = new Dictionary<int, Part>();
+        //using a separate storage for internal model audio sources as they have completely different reference system
+        private Dictionary<int, Part> soundIDToPartIVA = new Dictionary<int, Part>();
+
+		public void RebuildCache(AudioSource[] audioSources) {
 			Stopwatch performanceWatch = Stopwatch.StartNew();
 
 			soundIDToPart.Clear();
@@ -41,12 +43,12 @@ namespace AudioMuffler
 			KSPLog.print("AudioMuffler: VesselSoundsCache rebuild time = " + performanceWatch.ElapsedMilliseconds);
 		}
 		
-		public Part getPartFor(AudioSource audioSource) {
+		public Part GetPartFor(AudioSource audioSource) {
 			Part part;
 			return soundIDToPart.TryGetValue(audioSource.GetInstanceID(), out part) ? part : null;
 		}
 
-		public Part getPartForIVA(AudioSource audioSource) {
+		public Part GetPartForIVA(AudioSource audioSource) {
 			Part part;
 			return soundIDToPartIVA.TryGetValue(audioSource.GetInstanceID(), out part) ? part : null;
 		}

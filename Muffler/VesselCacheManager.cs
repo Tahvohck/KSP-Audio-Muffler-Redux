@@ -30,8 +30,8 @@ namespace AudioMuffler
 			stopWatch.Stop();
 			stopWatch.Reset();
 
-			vesselGeometry.rebuildCache();
-			vesselSounds.rebuildCache(audioSources);
+			vesselGeometry.RebuildCache();
+			vesselSounds.RebuildCache(audioSources);
 
 			stopWatch.Start();
 			scheduled = false;
@@ -43,10 +43,14 @@ namespace AudioMuffler
 				rebuildAllCaches(audioSources);
 				cachesInitialized = true;
 			} else {
-				//If active vessel wasn't changed and part count reduced then we should control frequency of cache rebuilds because 
-				//on high part count vessel crash a wave of events occur causing very frequent rebuilds which may lead to serious lags.
-				//Part count increases and vessel changes aren't expected to happen so frequent, so there's no need to control interval.
-				if (!scheduled || (stopWatch.ElapsedMilliseconds < scheduledInterval) && (FlightGlobals.ActiveVessel.Parts.Count < previousPartCount)) {
+                // If active vessel wasn't changed and part count reduced then we should control frequency of cache
+                // rebuilds because on high part count vessel crash a wave of events occur causing very frequent
+                // rebuilds which may lead to serious lags. Part count increases and vessel changes aren't expected to
+                // happen so frequent, so there's no need to control interval.
+				if (
+                !scheduled ||
+                (stopWatch.ElapsedMilliseconds < scheduledInterval) &&
+                (FlightGlobals.ActiveVessel.Parts.Count < previousPartCount)) {
 					return;
 				} else {
 					rebuildAllCaches(audioSources);

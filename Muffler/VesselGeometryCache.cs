@@ -7,18 +7,21 @@ namespace AudioMuffler
 {
 	public class VesselGeometryCache
 	{
-		private Bounds EVA_BOUNDS = new Bounds(new Vector3(0.0f, 0.3f, 0.0f), new Vector3(1.2f, 1.6f, 1.2f)); //Artificial EVA bounds (they are always the same)
+        //Artificial EVA bounds (they are always the same)
+        private Bounds EVA_BOUNDS = new Bounds(new Vector3(0.0f, 0.3f, 0.0f), new Vector3(1.2f, 1.6f, 1.2f));
 
-		//private Bounds vesselBounds = new Bounds();	//active vessel's bounds relative to vesselTransform. This should be checked prior to iterating through part meshes to improve efficiency
-		//private Transform vesselTransform = null;
+        // Active vessel's bounds relative to vesselTransform.
+        // This should be checked prior to iterating through part meshes to improve efficiency
+        //private Bounds vesselBounds = new Bounds();
+        //private Transform vesselTransform = null;
 
-		public Dictionary<Part, List<MeshFilter>> partMeshes { get; set;}
+        public Dictionary<Part, List<MeshFilter>> partMeshes { get; set;}
 
 		public VesselGeometryCache() {
 			partMeshes = new Dictionary<Part, List<MeshFilter>>();
 		}
 
-		public void rebuildCache() {
+		public void RebuildCache() {
 			Stopwatch performanceWatch = Stopwatch.StartNew();
 
 			partMeshes.Clear();
@@ -43,7 +46,8 @@ namespace AudioMuffler
 				/*for (int j = 0; j < filters.Count; j++) {
 					MeshFilter filter = filters[j];
 					for (int v = 0; v < filter.mesh.vertices.Length; v++) {
-						Vector3 vertice = vesselTransform.InverseTransformPoint(filter.transform.TransformPoint(filter.mesh.vertices[v]));
+						Vector3 vertice = vesselTransform.InverseTransformPoint(
+                            filter.transform.TransformPoint(filter.mesh.vertices[v]));
 						min.x = Mathf.Min(min.x, vertice.x);
 						min.y = Mathf.Min(min.y, vertice.y);
 						min.z = Mathf.Min(min.z, vertice.z);
@@ -70,9 +74,9 @@ namespace AudioMuffler
 			return vesselBounds.Contains(vesselTransform.InverseTransformPoint(point));
 		}*/
 
-		public bool isPointInPart(Vector3 point, Part part) {
+		public bool IsPointInPart(Vector3 point, Part part) {
 			if (FlightGlobals.ActiveVessel.isEVA) {
-				return isPointInEVA(point);
+				return IsPointInEVA(point);
 			}
 			
 			List<MeshFilter> filters;
@@ -81,20 +85,20 @@ namespace AudioMuffler
 			}
 			for (int i = 0; i < filters.Count; i++) {
 				MeshFilter filter = filters[i];
-				if (isPointInMesh(point, filter)) {
+				if (IsPointInMesh(point, filter)) {
 					return true;
 				}
 			}
 			return false;
 		}
 
-		private bool isPointInEVA(Vector3 point) {
+		private bool IsPointInEVA(Vector3 point) {
 			Vector3 localPoint = FlightGlobals.ActiveVessel.transform.InverseTransformPoint(point);
 			//localPoint = meshFilter.transform.InverseTransformPoint(point); //this is the JetPack transform
 			return EVA_BOUNDS.Contains(localPoint);
 		}
 
-		private bool isPointInMesh(Vector3 point, MeshFilter meshFilter) {
+		private bool IsPointInMesh(Vector3 point, MeshFilter meshFilter) {
 			if (meshFilter == null) {
 				return false;
 			}
