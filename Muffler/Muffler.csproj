@@ -76,6 +76,19 @@
     <Compile Include="DebugVisualizer.cs" />
     <Compile Include="VesselCacheManager.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Datafiles\LICENSE.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Datafiles\mixer.bundle">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Datafiles\muffler.cfg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /y "$(TargetPath)" "$(ProjectDir)..\GameData\Audio Muffler Redux\"</PostBuildEvent>
