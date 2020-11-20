@@ -85,12 +85,12 @@
     <None Include="Datafiles\mixer.bundle">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Datafiles\muffler.cfg">
+    <Content Include="Datafiles\muffler.cfg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /y "$(TargetPath)" "$(ProjectDir)..\GameData\Audio Muffler Redux\"</PostBuildEvent>
+    <PostBuildEvent>powershell -noprofile -nologo "&amp; '$(SolutionDir)pack.ps1' '$(TargetDir)' '$(TargetFileName)' '$(TargetName)'"</PostBuildEvent>
   </PropertyGroup>
 </Project>
