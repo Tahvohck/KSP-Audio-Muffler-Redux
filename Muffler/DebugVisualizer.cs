@@ -42,6 +42,7 @@ namespace AudioMuffler
 		private static Vector3 CT(Vector3 vector, bool asInternal = false) {
 			if (1 == 1)
 				return vector;
+            // TODO: Figure out why this code is unreachable
 			if (CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.IVA ||
                 CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.Internal) {
 				if (asInternal) {
